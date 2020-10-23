@@ -35,6 +35,7 @@ function _M.fetchUrl (pageUrl)
     return res, err;
 end
 
+-- TODO: use proper header and footer blocks (from /system/ramme.* ?)
 function _M.wrap(content)
     return '<div style="display:block; margin: 0.5rem 0; background: #ffc"><p>Header</p></div>'
             .. '<hr />'
