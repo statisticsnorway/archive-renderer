@@ -1,2 +1,4 @@
-conf/secure
+openresty/secure
+
 .idea
+**/.DS_Store
