@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  owb:
+    build:
+      context: ../openwayback
+      dockerfile: Dockerfile
+    volumes:
+      - ../openwayback/ssb-archive:/mnt/storage/warcs/
+    ports:
+      - 8080:8080
+
+  openresty:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+
+    ports:
+      - 6060:6060
+

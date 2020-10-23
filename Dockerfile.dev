@@ -1,0 +1,19 @@
+FROM openresty/openresty:alpine-fat
+
+RUN /usr/local/openresty/luajit/bin/luarocks install gumbo
+RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-http
+
+# copy main config
+COPY ./conf/nginx.dev.conf /usr/local/openresty/nginx/conf/nginx.conf
+COPY ./conf/handler.lua /usr/local/openresty/nginx/handler.lua
+
+# copy certificates for getting https to work downstream (only dev)
+COPY ./conf/secure/ /secure/
+
+RUN ls -l /secure
+
+# copy lua modules
+COPY ./lua-modules/composer.lua /usr/local/openresty/lualib/composer.lua
+
+
+
