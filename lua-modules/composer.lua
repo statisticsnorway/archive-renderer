@@ -48,9 +48,9 @@ local OWB_URL_PATTERN = os.getenv("OWB_URL")
 -- * This operation is destructive!! *
 -- * ------------------------------- *
 function _M.replaceUrls(document, srcUrl, targetUrl)
-    for i, element  in ipairs(document.links) do
+    for i, element in ipairs(document.links) do
         local origUrl = element:getAttribute("href");
-        local subUrl =  string.gsub(origUrl, OWB_URL_PATTERN, targetUrl);
+        local subUrl = string.gsub(origUrl, OWB_URL_PATTERN, targetUrl);
 
         ngx.log(ngx.DEBUG, "Replaced " .. origUrl .. " => " .. subUrl);
         ngx.log(ngx.DEBUG, "(should have used: " .. OWB_URL_PATTERN .. ' => ' .. targetUrl .. ')');
@@ -59,35 +59,44 @@ function _M.replaceUrls(document, srcUrl, targetUrl)
     end
 end
 
+function _M.errorPayload (msg, err)
+    return '<div style="display: block; background: #fcc">'
+            .. '<p>' .. utils.ensureNotNil(msg) .. '</p>'
+            .. '<p>' .. utils.ensureNotNil(err) .. '</p>'
+            .. '</div>';
+end
+
 -- arg content: is the content node (NOT html string)
 function _M.replaceOWBUrls (document)
     return _M.replaceUrls(document, os.getenv("OWB_URL"), os.getenv("RENDERER_URL"));
 end
 
-function _M.extractPage(pageUrl)
+function _M.extractPage(pageUrl, contentId)
     local res, err = _M.fetchUrl(pageUrl);
 
     if err then
-        utils.printHtmlLine("error", err);
-        return ;
+        return _M.errorPayload('Error while fetching' .. pageUrl, err);
     end
 
     if not res then
-        utils.printHtmlLine("No content");
-        return ;
+        return _M.errorPayload("Empty result from " .. pageUrl);
     end
 
     local body = gumbo.parse(res.body);
     _M.replaceOWBUrls(body);
 
-    local content = body:getElementById('content');
+    local content = body:getElementById(contentId or 'content');
 
     if (content == nil) then
         utils.printHtmlLine('Could not extract "content" from body');
         ngx.log(ngx.ERR, body.innerHTML);
-        return '';
+        return _M.errorPayload(
+                "Could not extract '"
+                        .. contentId
+                        .. "' element from html ('"
+                        .. pageUrl
+                        .. "')");
     end
-
 
     return _M.wrap(content);
 end
