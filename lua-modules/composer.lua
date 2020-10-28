@@ -18,7 +18,7 @@ function _M.fetchUrl (pageUrl)
 
     if err then
         utils.printHtmlLine("Error", err);
-        ngx.log(err);
+        ngx.log(ngx.ERR, err);
         return nil, err;
     end
 
