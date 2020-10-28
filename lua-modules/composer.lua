@@ -4,7 +4,7 @@ local utils = require("./utils");
 
 local _M = {};
 
-function _M.fetchUrl (pageUrl)
+function _M.fetchUrl(pageUrl)
     local http = httpResty.new();
 
     -- utils.printHtmlLine('Attempting to fetch', pageUrl);
@@ -59,7 +59,7 @@ function _M.replaceUrls(document, srcUrl, targetUrl)
     end
 end
 
-function _M.errorPayload (msg, err)
+function _M.errorPayload(msg, err)
     return '<div style="display: block; background: #fcc">'
             .. '<p>' .. utils.ensureNotNil(msg) .. '</p>'
             .. '<p>' .. utils.ensureNotNil(err) .. '</p>'
@@ -67,7 +67,7 @@ function _M.errorPayload (msg, err)
 end
 
 -- arg content: is the content node (NOT html string)
-function _M.replaceOWBUrls (document)
+function _M.replaceOWBUrls(document)
     return _M.replaceUrls(document, os.getenv("OWB_URL"), os.getenv("RENDERER_URL"));
 end
 
@@ -90,12 +90,11 @@ function _M.extractPage(pageUrl, contentId)
     if (content == nil) then
         utils.printHtmlLine('Could not extract "content" from body');
         ngx.log(ngx.ERR, body.innerHTML);
-        return _M.errorPayload(
-                "Could not extract '"
-                        .. contentId
-                        .. "' element from html ('"
-                        .. pageUrl
-                        .. "')");
+        return _M.errorPayload("Could not extract '"
+                .. contentId
+                .. "' element from html ('"
+                .. pageUrl
+                .. "')");
     end
 
     return _M.wrap(content);
