@@ -17,8 +17,9 @@ services:
       context: ./
       dockerfile: Dockerfile.dev
     environment:
+      - OWB_URL=http://owb:8080
       - SITE_URL=https://www.qa.ssb.no
-
+      - RENDERER_URL=http://localhost:6060/
     ports:
       - 6060:6060
 
