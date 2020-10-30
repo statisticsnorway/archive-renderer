@@ -16,7 +16,7 @@ variables:
   - name: fullSha
     value: '$(Build.SourceVersion)'
   - name: imageName
-    value: 'eu.gcr.io/prod-ip/ssb/ssbno/archive-renderer'
+    value: 'eu.gcr.io/prod-bip/ssb/ssbno/archive-renderer'
   - name: repoName
     value: 'prod-bip/ssb/ssbno/archive-renderer'
   - name: tag
