@@ -19,7 +19,8 @@ variables:
     value: 'eu.gcr.io/prod-ip/ssb/ssbno/archive-renderer'
   - name: repoName
     value: 'prod-bip/ssb/ssbno/archive-renderer'
-
+  - name: tag
+    value: $(Build.SourceBranchName)-archive-renderer-$(fullSha)
 
 jobs:
   - job: buildTestDockerBuildDockerPush
