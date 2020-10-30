@@ -22,10 +22,15 @@ variables:
   - name: tag
     value: $(Build.SourceBranchName)-archive-renderer-$(fullSha)
 
-jobs:
+stages:
+- stage: Build
+  displayName: Build and deploy to GCR
+  jobs:
   - job: buildTestDockerBuildDockerPush
     displayName: 'Test/Build app and docker image'
-    steps:
+    pool:
+      vmImage: 'ubuntu-latest'
+    - steps:
       - task: Docker@2
         displayName: 'Docker Build'
         inputs:
@@ -39,7 +44,7 @@ jobs:
         displayName: 'Login to GCR'
         inputs:
           command: login
-          containerRegistry: gcrServiceConnection
+            containerRegistry: gcrServiceConnection
 
       - task: Docker@2
         displayName: 'Push image'
@@ -49,6 +54,4 @@ jobs:
           repository: $(repoName)
           command: 'push'
           tags: |
-            $(tag)
-
-
+          $(tag)
