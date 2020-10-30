@@ -34,7 +34,7 @@ jobs:
     inputs:
       repository: $(imageName)
       command: 'build'
-      dockerfile: '$(Build.SourceDirectory)/Dockerfile'
+      dockerfile: 'Dockerfile'
       tags: |
         $(tag)
 
