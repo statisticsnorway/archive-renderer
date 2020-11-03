@@ -1,5 +1,5 @@
 local composer = require("composer");
-local owbArchivePrefix = os.getenv("OWB_URL")
+local owbArchivePrefix = os.getenv("OWB_ACCESS_URL")
         .. "/wayback/"
         .. os.getenv("SITE_URL")
         .. "/";
