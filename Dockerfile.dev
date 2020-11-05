@@ -10,13 +10,7 @@ RUN luarocks install luasec OPENSSL_DIR=/usr/local/openresty/openssl
 COPY ./openresty/nginx.dev.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY ./openresty/handler.lua /usr/local/openresty/nginx/handler.lua
 
-# copy certificates
-COPY ./openresty/secure/ /secure/
-
 # copy lua modules
 COPY ./lua-modules/ /usr/local/openresty/lualib/
-
-RUN ls -l /secure
-
 
 
