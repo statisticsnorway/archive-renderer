@@ -10,7 +10,8 @@ function _M.fetchUrl(pageUrl)
     -- utils.printHtmlLine('Attempting to fetch', pageUrl);
     local res, err = http:request_uri(pageUrl, {
         method = "GET",
-        scheme = "http",
+        scheme = "https",
+        ssl_verify = false,
         headers = {
             ["Content-Type"] = "text/html"
         }
