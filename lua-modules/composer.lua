@@ -26,8 +26,9 @@ function _M.fetchUrl(pageUrl)
     local status = tonumber(res.status);
     if (status > 300 and status < 400) then
         local redirectUrl = res.headers["Location"];
+        local rep = _M.replaceUrl(redirectUrl, os.getenv("OWB_URL"), os.getenv("OWB_ACCESS_URL"));
         -- utils.printHtmlLine("Redirecting to", redirectUrl);
-        return _M.fetchUrl(redirectUrl);
+        return _M.fetchUrl(rep);
     end
 
     return res, err;
@@ -58,6 +59,16 @@ function _M.replaceUrls(document, srcUrl, targetUrl)
 
         element:setAttribute("href", subUrl);
     end
+end
+
+function _M.replaceUrl(origUrl, srcPattern, replace)
+    utils.printHtmlLine("orig", origUrl);
+    utils.printHtmlLine("source", srcPattern);
+    utils.printHtmlLine("target", replace);
+
+    local result = string.gsub(origUrl, srcPattern, replace);
+    utils.printHtmlLine(" => ", origUrl .. ' => ' .. result);
+    return result;
 end
 
 function _M.errorPayload(msg, err)
