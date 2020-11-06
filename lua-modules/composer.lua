@@ -26,7 +26,7 @@ function _M.fetchUrl(pageUrl)
     local status = tonumber(res.status);
     if (status > 300 and status < 400) then
         local redirectUrl = res.headers["Location"];
-        local rep = _M.replaceUrl(redirectUrl, os.getenv("OWB_URL"), os.getenv("OWB_ACCESS_URL"));
+        local rep = _M.replaceStringAsPattern(redirectUrl, os.getenv("OWB_URL"), os.getenv("OWB_ACCESS_URL"));
         -- utils.printHtmlLine("Redirecting to", redirectUrl);
         return _M.fetchUrl(rep);
     end
@@ -61,13 +61,14 @@ function _M.replaceUrls(document, srcUrl, targetUrl)
     end
 end
 
-function _M.replaceUrl(origUrl, srcPattern, replace)
-    utils.printHtmlLine("orig", origUrl);
+function _M.replaceStringAsPattern(orig, src, replace)
+    local srcPattern = utils.escapePattern(src);
+    utils.printHtmlLine("orig", orig);
     utils.printHtmlLine("source", srcPattern);
     utils.printHtmlLine("target", replace);
 
-    local result = string.gsub(origUrl, srcPattern, replace);
-    utils.printHtmlLine(" => ", origUrl .. ' => ' .. result);
+    local result = string.gsub(orig, srcPattern, replace);
+    utils.printHtmlLine(" => ", orig .. ' => ' .. result);
     return result;
 end
 
@@ -84,6 +85,8 @@ function _M.replaceOWBUrls(document)
 end
 
 function _M.extractPage(pageUrl, contentId)
+    -- return utils.wtf();
+
     local res, err = _M.fetchUrl(pageUrl);
 
     if err then
