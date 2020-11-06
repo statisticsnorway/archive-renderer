@@ -85,8 +85,6 @@ function _M.replaceOWBUrls(document)
 end
 
 function _M.extractPage(pageUrl, contentId)
-    -- return utils.wtf();
-
     local res, err = _M.fetchUrl(pageUrl);
 
     if err then
