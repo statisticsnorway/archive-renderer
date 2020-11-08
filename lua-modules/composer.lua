@@ -42,9 +42,9 @@ function _M.wrap(content)
 end
 
 -- "http://owb:8080/wayback/(.-)/https://www.qa.ssb.no/";
-local OWB_URL_PATTERN = os.getenv("OWB_URL")
-        .. '/wayback/(.-)/'
-        .. os.getenv("SITE_URL");
+local OWB_URL_PATTERN = utils.escapePattern(os.getenv("OWB_URL") .. '/wayback/')
+        .. '(%d*)'
+        .. utils.escapePattern('/' .. os.getenv("SITE_URL"));
 
 -- * NOTE: ------------------------- *
 -- * This operation is destructive!! *
@@ -63,12 +63,12 @@ end
 
 function _M.replaceStringAsPattern(orig, src, replace)
     local srcPattern = utils.escapePattern(src);
-    utils.printHtmlLine("orig", orig);
-    utils.printHtmlLine("source", srcPattern);
-    utils.printHtmlLine("target", replace);
+    -- utils.printHtmlLine("orig", orig);
+    -- utils.printHtmlLine("source", srcPattern);
+    -- utils.printHtmlLine("target", replace);
 
     local result = string.gsub(orig, srcPattern, replace);
-    utils.printHtmlLine(" => ", orig .. ' => ' .. result);
+    -- utils.printHtmlLine(" => ", orig .. ' => ' .. result);
     return result;
 end
 
@@ -85,6 +85,9 @@ function _M.replaceOWBUrls(document)
 end
 
 function _M.extractPage(pageUrl, contentId)
+    return utils.escesc();
+
+    --[[
     local res, err = _M.fetchUrl(pageUrl);
 
     if err then
@@ -111,6 +114,7 @@ function _M.extractPage(pageUrl, contentId)
     end
 
     return _M.wrap(content);
+    ]]--
 end
 
 return _M;
