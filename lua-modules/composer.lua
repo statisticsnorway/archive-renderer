@@ -85,6 +85,9 @@ function _M.replaceOWBUrls(document)
 end
 
 function _M.extractPage(pageUrl, contentId)
+    return utils.escesc();
+
+    --[[
     local res, err = _M.fetchUrl(pageUrl);
 
     if err then
@@ -111,6 +114,7 @@ function _M.extractPage(pageUrl, contentId)
     end
 
     return _M.wrap(content);
+    ]]--
 end
 
 return _M;
