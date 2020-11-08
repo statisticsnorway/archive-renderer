@@ -29,4 +29,9 @@ Rendering service for content archived in openwayback
      OWB project root. It is mounted automatically by docker-compose.
      
 ## Staging / Prod
-- *In Progress* (ref: [MIMIR-134](https://statistics-norway.atlassian.net/browse/MIMIR-134))
+- `archive-renderer` and `openwayback` communicate directly through k8s (see platform-dev/openwayback-ar.yaml config)
+- It is important to instruct nginx to use the k8s dns (), consequently. 
+  ```nginx
+  resolver kube-dns.kube-system.svc.cluster.local ipv6=off;
+  ```
+- Pay careful attention to the environment variables AR's flux config
