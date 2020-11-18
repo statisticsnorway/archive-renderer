@@ -15,9 +15,6 @@ Rendering service for content archived in openwayback
 1. checkout this repository
 1. checkout [openwayback](https://github.com/statisticsnorway/openwayback) repository as a sibling. docker-compose uses '../openwayback' context 
    to build and start OWB. 
-1. **Important** Change the `WAYBACK_URL_PREFIX` to `http://owb:8080` in openwayback's `Dockerfile`
-   - If you want to access OWB directly, you can setup an entry in your /etc/hosts file to point `owb` to localhost
-   - On Windows 10, the hosts file is found at `c:\Windows\System32\Drivers\etc\hosts` 
 1. Start the network
    ```bash
    $ docker-compose up --build
